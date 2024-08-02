@@ -16,7 +16,9 @@ export class LoginComponent {
   login(username: string, password: string) {
     const isAuthenticated = this.authService.login(username, password);
     if (isAuthenticated) {
-      alert('isAuthenticated:');
+      alert('Successful login');
+    } else {
+      alert('failed to login');
     }
   }
 }
