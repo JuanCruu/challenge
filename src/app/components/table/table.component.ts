@@ -19,7 +19,7 @@ export class TableComponent {
   @ViewChild('nameTemplate', { static: true }) nameTemplate!: TemplateRef<any>;
 
   // Data retrieved from the service
-  data = [];
+  data: any
 
   // Filtered data
   tempData: any = [];
@@ -48,10 +48,10 @@ export class TableComponent {
   SelectionType = SelectionType;
 
   // Selected rows in the table
-  selected = [];
+  selected: any = [];
 
   // Constructor that injects AdminService
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService) { }
 
   /**
    * Called on component initialization, fetches user data
@@ -72,7 +72,7 @@ export class TableComponent {
    */
   updateFilter(event: any = "") {
     const val = event.target.value.toLowerCase();
-    const filterData = this.data.filter(item => {
+    const filterData = this.data.filter((item: { [s: string]: unknown; } | ArrayLike<unknown>) => {
       return Object.values(item).some(prop => {
         return prop?.toString().toLowerCase().includes(val);
       });
@@ -94,6 +94,13 @@ export class TableComponent {
    * @param IsEditing Indicates whether the modal is in editing mode
    */
   onOpenModal(IsEditing = false) {
-    this._ModalSvc.openModal<ModalComponent, any>(ModalComponent, this.selected[0], IsEditing);
+    const dialogRef = this._ModalSvc.openModal<ModalComponent, any>(ModalComponent, this.selected[0], IsEditing);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.success) {
+        let id = this.selected[0].id;
+        this.data[id] = result.data;
+        this.tempData = [...this.data];
+      }
+    });
   }
 }

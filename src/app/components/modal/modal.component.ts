@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatLabel, MatFormField } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
 import { AdminService } from '../../services/admin.service';
@@ -27,6 +27,7 @@ export class ModalComponent implements OnInit {
   private readonly _matDialog = inject(MAT_DIALOG_DATA);
   private readonly _adminSvc = inject(AdminService);
   private readonly _modalSVC = inject(ModalService);
+  private readonly _dialogRef = inject(MatDialogRef<ModalComponent>);
 
   /**
    * Lifecycle hook that is called after data-bound properties are initialized
@@ -73,14 +74,18 @@ export class ModalComponent implements OnInit {
    * or add a new user. Closes the modal after submission.
    */
   async onSubmit() {
+    let resultData;
     let message = APP_CONSTANTS.MESSAGES.CONTACT_UPDATED;
 
-    if (this._matDialog.data) {
-      await this._adminSvc.editUser(this._matDialog.data);
+    const formData = this.form.value;
+
+    if (this._matDialog.IsEditing) {
+      resultData = await this._adminSvc.editUser({ ...this._matDialog.data, ...formData });
     } else {
-      await this._adminSvc.newUser(this._matDialog.data);
+      resultData = await this._adminSvc.newUser(formData);
       message = APP_CONSTANTS.MESSAGES.CONTACT_ADDED;
     }
-    this._modalSVC.closeModal();
+
+    this._dialogRef.close({ success: true, data: resultData });
   }
 }

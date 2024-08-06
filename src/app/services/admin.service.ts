@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class AdminService {
   // Base URL for the API
   private apiUrl = 'https://jsonplaceholder.typicode.com/';
 
-  constructor() { }
+  constructor(private toastr: ToastrService) { }
 
   /**
    * Retrieves a list of users from the API
@@ -26,8 +27,8 @@ export class AdminService {
         return response.data;
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
-      throw error; // Re-throwing the error to allow calling code to handle it
+      this.toastr.error('Error fetching users:', "error");
+      throw error;
     }
   }
 
@@ -47,8 +48,9 @@ export class AdminService {
         return response.data;
       }
     } catch (error) {
+      this.toastr.error(`Error fetching user with ID ${id}:`, "error");
       console.error(`Error fetching user with ID ${id}:`, error);
-      throw error; // Re-throwing the error to allow calling code to handle it
+      throw error;
     }
   }
 
@@ -58,19 +60,24 @@ export class AdminService {
    * @returns A promise that resolves to the updated user data
    */
   async editUser(user: any) {
+    console.log('editUser: ', user);
     try {
       const response = await axios.put(`${this.apiUrl}/users/${user.id}`, user, {
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      console.log('User updated:', response);
       if (response.status === 200) {
+
+        console.log("response user", response.data);
+
+        this.toastr.success('User updated:', "success");
         return response.data;
       }
     } catch (error) {
+      this.toastr.error('Error updating user:', "error");
       console.error('Error updating user:', error);
-      throw error; // Re-throwing the error to allow calling code to handle it
+      throw error;
     }
   }
 
@@ -86,13 +93,14 @@ export class AdminService {
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      console.log('User created:', response);
-      if (response.status === 201) { // Changed to 201 as the standard status code for resource creation
+      if (response.status === 201) {
+        this.toastr.success('User created:', "success");
         return response.data;
       }
     } catch (error) {
+      this.toastr.error('Error creating user:', "error");
       console.error('Error creating user:', error);
-      throw error; // Re-throwing the error to allow calling code to handle it
+      throw error;
     }
   }
 }

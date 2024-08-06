@@ -1,25 +1,19 @@
-<div class="mt-8">
-    <h1 class="text-3xl">Users</h1>
-    <div class="border-b-2 w-full pb-4 my-4 border-gray-300 border-dashed flex justify-between gap-2">
-        <input type="text" placeholder="filter" class="p-2 rounded-md w-full" (keyup)="updateFilter($event)">
-        <div (click)="onOpenModal()" class="bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-            add
+<div class="w-full">
+    <div class=" border-gray-300 border-dashed flex justify-between gap-2">
+        <div class="h-full w-full flex gap-4 justify-between">
+            <input type="text" placeholder="Filter Users" class="rounded-md w-full px-5 h-[50px] shadow-md bg-gray-100"
+                (keyup)="updateFilter($event)">
+            <button (click)="onOpenModal()" type="button"
+                class="min-w-[200px] min-h-[50px] h-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                Add User
+            </button>
         </div>
+
     </div>
-    <ngx-datatable class="material" [rows]="tempData.length === 0 ? data : tempData" class="material"
+    <ngx-datatable class="material w-full" [rows]="tempData.length === 0 ? data : tempData"
         [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
         [selectionType]="SelectionType.checkbox" [selectAllRowsOnPage]="false" (select)="onSelect($event)"
         [selected]="selected" [selectionType]="SelectionType.single">
-
-        <!-- <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-            [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="true">
-        </ngx-datatable-column> -->
-
-        <!-- <ngx-datatable-column name="ID" prop="id">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.id }}
-            </ng-template>
-        </ngx-datatable-column> -->
 
         <ngx-datatable-column name="Name" prop="name">
             <ng-template let-row="row" ngx-datatable-cell-template>

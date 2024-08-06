@@ -5,6 +5,10 @@ This project is an Angular application that demonstrates user authentication, au
 
 ## Getting Started
 
+Angular cli 18 is needed!
+npm install -g @angular/cli
+
+
 ### Installation
 
 1. **Clone the Repository:**
@@ -23,6 +27,7 @@ This project is an Angular application that demonstrates user authentication, au
    ```bash
    npm install
    ```
+
 
 ### Running the Project
 
