@@ -1,0 +1,61 @@
+<div class="mt-8">
+    <h1 class="text-3xl">Users</h1>
+    <div class="border-b-2 w-full pb-4 my-4 border-gray-300 border-dashed flex justify-between gap-2">
+        <input type="text" placeholder="filter" class="p-2 rounded-md w-full" (keyup)="updateFilter($event)">
+        <div (click)="onOpenModal()" class="bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            add
+        </div>
+    </div>
+    <ngx-datatable class="material" [rows]="tempData.length === 0 ? data : tempData" class="material"
+        [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+        [selectionType]="SelectionType.checkbox" [selectAllRowsOnPage]="false" (select)="onSelect($event)"
+        [selected]="selected" [selectionType]="SelectionType.single">
+
+        <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="true">
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="ID" prop="id">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.id }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Name" prop="name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="w-fit px-3">{{ row.name }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Username" prop="username">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="w-fit px-3">{{ row.username }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Email" prop="email">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="w-fit px-3">{{ row.email }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Phone" prop="phone">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="w-fit px-3">{{ row.phone }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Street" prop="address.street">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="w-fit px-3">{{ row.address?.street }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Company Name" prop="company.name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="w-fit px-3">{{ row.company?.name }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+
+    </ngx-datatable>
+</div>

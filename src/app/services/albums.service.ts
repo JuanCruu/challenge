@@ -9,8 +9,6 @@ export class AlbumsService {
   constructor() {}
 
   private apiUrl = 'https://jsonplaceholder.typicode.com/';
-
-
   async getPhotos(page: number = 1) {
 
     try {
